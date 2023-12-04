@@ -1,0 +1,16 @@
+#!/bin/sh
+
+FVM_VERSION=`fvm --version`
+FLUTTER_VERSION_IN_USE=`fvm doctor | grep -C 0 "SDK Version"`
+
+if [ -z "$FVM_VERSION" ]; then
+	echo "Error: FVM isn't installed. Please install it from the following website: https://fvm.app/"
+	exit 1
+fi
+echo "FVM is installed: $FVM_VERSION"
+
+if [ -z "$FLUTTER_VERSION_IN_USE" ]; then
+	echo "Error: FVM is not setup for this project. Please run 'fvm use' in the project root."
+	exit 1
+fi
+echo "Flutter Version in use: $FLUTTER_VERSION_IN_USE"
