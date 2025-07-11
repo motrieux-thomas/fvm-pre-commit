@@ -1,14 +1,23 @@
 #!/bin/sh
 
 FVM_VERSION=`fvm --version`
-FLUTTER_VERSION_IN_USE=`fvm doctor | grep -C 0 "SDK Version"`
 
+# Check if FVM is installed and print the version.
 if [ -z "$FVM_VERSION" ]; then
 	echo "Error: FVM isn't installed. Please install it from the following website: https://fvm.app/"
 	exit 1
 fi
 echo "FVM is installed: $FVM_VERSION"
 
+# Check if FVM is setup for the project and return the version in use.
+FVM_MAJOR_VERSION=$(echo "$FVM_VERSION" | cut -d'.' -f1)
+if [ "$FVM_MAJOR_VERSION" -ge 3 ]; then
+    FLUTTER_VERSION_IN_USE=$(fvm doctor | grep "Pinned Version" | awk -F '│' '{print $3}' | xargs)
+else
+    FLUTTER_VERSION_IN_USE=`fvm doctor | grep -C 0 "SDK Version"`
+fi
+
+# Print the Flutter version in use.
 if [ -z "$FLUTTER_VERSION_IN_USE" ]; then
 	echo "Error: FVM is not setup for this project. Please run 'fvm use' in the project root."
 	exit 1
