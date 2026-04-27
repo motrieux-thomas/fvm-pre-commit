@@ -5,12 +5,12 @@
 
 -   id: fvm-format
     name: Dart code formatting through FVM
-    entry: fvm-analyze
+    entry: fvm-format
     language: script
     files: \.dart$
 
 -   id: fvm-analyze
     name: Flutter code analyzing through FVM
     language: script
-    entry: fvm-format
+    entry: fvm-analyze
     files: \.dart$
